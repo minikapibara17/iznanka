@@ -527,7 +527,7 @@ function showStep() {
   const heroName = getHeroName(heroKey);
   // Сначала сообщение о бедствии
   addMsg(heroName, hero.distress, 'hero');
-  // Через небольшую паузу — задание (чтобы было как отдельное сообщение)
+  // Через небольшую паузу — задание (отдельное сообщение)
   setTimeout(() => {
     addMsg(heroName, hero.task, 'hero');
   }, 600);
