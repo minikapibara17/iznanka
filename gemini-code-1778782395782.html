@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ИЗНАНКА | TERMINAL 2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050000;
+    --st-red: #ff0000;
+    --red-glow: rgba(255, 0, 0, 0.6);
+    --text: #f0f0f0;
+    --border: #440000;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ЭФФЕКТ ГЛИТЧА И ШУМА */
+  .glitch-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 5; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
+    background-size: 100% 3px;
+  }
+
+  /* ПАДАЮЩАЯ ПЫЛЬ/ПЕПЕЛ */
+  .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+  .particle {
+    position: absolute; background: #fff; border-radius: 50%; opacity: 0.4;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.5; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  #app {
+    max-width: 500px; margin: 0 auto; display: flex; flex-direction: column;
+    position: relative; z-index: 10; min-height: 100vh;
+    border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.1);
+  }
+
+  /* ШАПКА */
+  .header {
+    padding: 20px; text-align: center; background: #0a0000;
+    border-bottom: 3px solid var(--st-red); box-shadow: 0 5px 20px var(--red-glow);
+  }
+
+  .timer-box {
+    font-family: 'Unbounded'; font-size: 18px; color: var(--st-red);
+    text-shadow: 0 0 10px var(--st-red); margin-bottom: 10px;
+  }
+
+  .radar {
+    width: 60px; height: 60px; border: 2px solid var(--st-red);
+    border-radius: 50%; margin: 0 auto; position: relative;
+    overflow: hidden; background: radial-gradient(circle, #200 0%, #000 70%);
+  }
+  .radar::after {
+    content: ''; position: absolute; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent 50%, var(--red-glow) 50%);
+    top: 0; left: 0; animation: rotate 3s linear infinite; transform-origin: center;
+  }
+  @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* ЭКРАН ВЫБОРА */
+  .setup { padding: 40px 20px; text-align: center; }
+  .main-title {
+    font-family: 'Unbounded'; font-size: 40px; color: var(--st-red);
+    text-shadow: 0 0 20px var(--st-red); letter-spacing: 8px; margin-bottom: 40px;
+  }
+
+  .btn-choice {
+    width: 100%; padding: 25px; margin-bottom: 20px;
+    background: #110000; border: 2px solid var(--st-red);
+    color: #fff; font-family: 'Unbounded'; font-size: 14px;
+    cursor: pointer; transition: 0.3s; text-transform: uppercase;
+  }
+  .btn-choice:hover { background: var(--st-red); box-shadow: 0 0 20px var(--st-red); }
+
+  /* ЧАТ */
+  #chatScreen { flex: 1; display: flex; flex-direction: column; padding-bottom: 120px; }
+  .chat-wrap { padding: 20px; display: flex; flex-direction: column; gap: 25px; }
+
+  .msg-bubble {
+    padding: 18px; background: rgba(20, 0, 0, 0.85);
+    border: 1px solid var(--st-red); border-left: 5px solid var(--st-red);
+    font-size: 16px; line-height: 1.6; position: relative;
+  }
+  .msg.user .msg-bubble {
+    border-left: 1px solid var(--st-red); border-right: 5px solid var(--st-red);
+    align-self: flex-end; background: rgba(40, 0, 0, 0.6);
+  }
+
+  .char-tag {
+    font-family: 'Unbounded'; font-size: 11px; color: var(--st-red);
+    margin-bottom: 10px; display: block; letter-spacing: 2px;
+  }
+
+  /* ВВОД ТЕКСТА */
+  .input-area {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 500px; padding: 20px; background: #000;
+    display: flex; gap: 10px; border-top: 3px solid var(--st-red); z-index: 100;
+  }
+  input {
+    flex: 1; background: #1a0000; border: 1px solid var(--st-red);
+    color: #fff; padding: 15px; outline: none; font-family: 'Share Tech Mono';
+    font-size: 16px; text-transform: uppercase;
+  }
+  .send-btn {
+    background: var(--st-red); border: none; color: white;
+    padding: 0 20px; font-family: 'Unbounded'; font-size: 12px; cursor: pointer;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="glitch-overlay"></div>
+<div class="particles" id="particles"></div>
+
+<div id="app">
+  <div class="header">
+    <div class="timer-box" id="timer">00:00</div>
+    <div class="radar"></div>
+  </div>
+
+  <div id="setupScreen" class="setup">
+    <h1 class="main-title">ИЗНАНКА</h1>
+    <button class="btn-choice" onclick="startQuest('ivan')">ОТРЯД ЦАРЕВИЧА</button>
+    <button class="btn-choice" onclick="startQuest('zabava')">ОТРЯД ЗАБАВЫ</button>
+  </div>
+
+  <div id="chatScreen" class="hidden">
+    <div class="chat-wrap" id="messages"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="ВВОД КООРДИНАТ..." autocomplete="off">
+      <button class="send-btn" onclick="handleSend()">ВВОД</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const partContainer = document.getElementById('particles');
+for (let i = 0; i < 35; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 3 + 'px';
+  p.style.width = size; p.style.height = size;
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.animationDuration = Math.random() * 5 + 5 + 's';
+  partContainer.appendChild(p);
+}
+
+let startTime, timerIdx, step = 0, team = '', awaitingArrival = true, finalStage = 0;
+
+const stations = {
+  yaga: { name: '🦴 БАБА-ЯГА', text: 'Кха-кха... Слышите этот треск? Это Изнанка пожирает мою избушку! Связь с реальным миром почти пропала — только старое радио ещё ловит сигнал сквозь помехи. Мне не выбраться без моей ступы. Она спрятана где-то в заповеднике. Найдите её! На ступе будут координаты — только они помогут мне отыскать дорогу обратно. Скорее... пока тьма не добралась и до вас.', code: 'X-33-Y' },
+  koschei: { name: '💀 КОЩЕЙ', text: 'Холодно... слишком холодно. Время здесь будто остановилось. Дух Изнанки заточил меня в этой проклятой пещере, даже эхо здесь не слышно. Но у меня есть амулет. Старинный. Сильный. Он способен указать путь даже там, где не видно выхода. Найдите его среди теней леса и передайте мне координаты. И поторопитесь... я чувствую, как тьма надвигается и на реальный мир!', code: 'ZERO-0' },
+  leshy: { name: '🌲 ЛЕШИЙ', text: 'Лес утонул под пеплом, деревья засохли, трава почернела, в воздухе висит морок! Я больше не вижу прежних тропинок. Только мой заговорённый меч способен разрубить эту тьму. Отыщите древнюю реликвию и отправьте мне её координаты, пока тьма окончательно не стёрла с лица Заповедника все пути.', code: 'ROOT-7' },
+  kikimora: { name: '🕸 КИКИМОРА', text: 'Ой, мамочки... где это я?.. Эта жуткая паутина тянется бесконечно, а злобный дух всё глубже заманивает меня в свои пучины. Только мой гребень способен распутать эти проклятые нити. Ищите его под корнями деревьев — там, где земля холоднее обычного. Найдёте — сразу отправляйте координаты! Пока паутина не утянула меня в самую глубину Изнанки...', code: 'WEB-99' },
+  vodyanoy: { name: '💧 ВОДЯНОЙ', text: 'Буль... буль... Вода почернела, реки превратились в вязкую грязь! Мне нужен мой трезубец. Только он способен очистить эту проклятую тьму и вернуть воде чистоту. Найдите его и передайте мне координаты. Иначе болото поглотит меня вместе со всеми моими владениями...', code: 'DEEP-8' }
+};
+
+const arrivalProtocols = [
+  { trigger: "подтверждаю прибытие", response: "Связь установлена. Слушаю..." },
+  { trigger: "на связи", response: "Сигнал получен. Передаю расшифровку..." },
+  { trigger: "объект найден", response: "Объект в зоне доступа. Транслирую сообщение..." },
+  { trigger: "объект в зоне видимости", response: "Канал разблокирован. Говорите..." },
+  { trigger: "связь установлена", response: "Помехи подавлены. Слушаю координаты..." }
+];
+
+const paths = {
+  ivan: [stations.yaga, stations.koschei, stations.leshy, stations.kikimora, stations.vodyanoy],
+  zabava: [stations.vodyanoy, stations.kikimora, stations.leshy, stations.koschei, stations.yaga]
+};
+
+function startQuest(selected) {
+  team = selected;
+  startTime = new Date();
+  document.getElementById('setupScreen').classList.add('hidden');
+  document.getElementById('chatScreen').classList.remove('hidden');
+  timerIdx = setInterval(() => {
+    let diff = Math.floor((new Date() - startTime) / 1000);
+    document.getElementById('timer').innerText = String(Math.floor(diff/60)).padStart(2,'0') + ':' + String(diff%60).padStart(2,'0');
+  }, 1000);
+  addMsg('СИСТЕМА', `Канал открыт. Первая цель: ${paths[team][0].name}. По прибытии введите протокол: "${arrivalProtocols[0].trigger}".`);
+}
+
+function handleSend() {
+  let input = document.getElementById('userInput');
+  let val = input.value.trim().toUpperCase();
+  if(!val) return;
+  addMsg('ВЫ', input.value, true);
+  input.value = '';
+
+  if (finalStage === 1) {
+    if (val.includes('НАШЛИ') || val.includes('ВСТРЕТИЛИ') || val.includes('ВМЕСТЕ')) {
+        addMsg('СИСТЕМА', 'Визуальное подтверждение получено. Обе группы в сборе.');
+        addMsg('СИСТЕМА', 'Для окончательной победы введите финальный временной ключ (текущий год).');
+        finalStage = 2;
+    } else {
+        addMsg('СИСТЕМА', 'ОШИБКА. Доложите о встрече со вторым отрядом.');
+    }
+    return;
+  }
+
+  if (finalStage === 2) {
+    const currentYear = new Date().getFullYear().toString();
+    if (val === currentYear) {
+        finishGame();
+    } else {
+        addMsg('СИСТЕМА', 'КЛЮЧ НЕ ВЕРЕН. Введите текущий год.');
+    }
+    return;
+  }
+
+  if (awaitingArrival) {
+    if (val.toLowerCase() === arrivalProtocols[step].trigger) {
+      addMsg('СИСТЕМА', arrivalProtocols[step].response);
+      awaitingArrival = false;
+      setTimeout(showStep, 800);
+    } else {
+      addMsg('СИСТЕМА', `ОШИБКА. Напишите: "${arrivalProtocols[step].trigger}"`);
+    }
+    return;
+  }
+
+  if(val === paths[team][step].code) {
+    step++;
+    if (step < 5) {
+      const nextHero = paths[team][step].name;
+      addMsg('СИСТЕМА', `КООРДИНАТЫ ПРИНЯТЫ. Цель: ${nextHero}. Введите протокол: "${arrivalProtocols[step].trigger}".`);
+      awaitingArrival = true;
+    } else { 
+      triggerFinal(); 
+    }
+  } else {
+    addMsg('СИСТЕМА', 'ОШИБКА. Некорректные координаты артефакта.');
+  }
+}
+
+function showStep() { addMsg(paths[team][step].name, paths[team][step].text); }
+
+function triggerFinal() {
+    addMsg('СИСТЕМА', 'ВСЕ ГЕРОИ ОТРЯДА ВНЕ ОПАСНОСТИ.');
+    setTimeout(() => {
+        addMsg('СИСТЕМА', 'ВНИМАНИЕ: Для полной очистки Заповедника ОБЪЕДИНИТЕСЬ СО ВТОРЫМ ОТРЯДОМ.');
+        addMsg('СИСТЕМА', 'Как только встретите их — подтвердите это в терминале.');
+        finalStage = 1;
+    }, 1000);
+}
+
+function finishGame() {
+    clearInterval(timerIdx);
+    addMsg('ФИНАЛ', 'ИЗНАНКА СХЛОПНУЛАСЬ. Заповедник спасен! Ваше время: ' + document.getElementById('timer').innerText);
+    addMsg('СИСТЕМА', 'Возвращайтесь в штаб к Ивану и Забаве.');
+}
+
+function addMsg(who, text, isUser) {
+  let div = document.createElement('div');
+  div.className = 'msg ' + (isUser ? 'user' : 'bot');
+  div.innerHTML = `<div class="msg-bubble"><span class="char-tag">${who}</span><div>${text}</div></div>`;
+  document.getElementById('messages').appendChild(div);
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+document.getElementById('userInput').addEventListener('keypress', e => { if(e.key === 'Enter') handleSend(); });
+</script>
+</body>
+</html>
