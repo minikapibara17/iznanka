@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -25,7 +26,6 @@
     position: relative;
   }
 
-  /* ЭФФЕКТ ГЛИТЧА И ШУМА */
   .glitch-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 5; pointer-events: none;
@@ -33,7 +33,6 @@
     background-size: 100% 3px;
   }
 
-  /* ПАДАЮЩАЯ ПЫЛЬ/ПЕПЕЛ */
   .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
   .particle {
     position: absolute; background: #fff; border-radius: 50%; opacity: 0.4;
@@ -52,7 +51,6 @@
     box-shadow: 0 0 50px rgba(255, 0, 0, 0.1);
   }
 
-  /* ШАПКА */
   .header {
     padding: 20px; text-align: center; background: #0a0000;
     border-bottom: 3px solid var(--st-red); box-shadow: 0 5px 20px var(--red-glow);
@@ -75,7 +73,6 @@
   }
   @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-  /* ЭКРАН ВЫБОРА */
   .setup { padding: 40px 20px; text-align: center; }
   .main-title {
     font-family: 'Unbounded'; font-size: 40px; color: var(--st-red);
@@ -90,7 +87,6 @@
   }
   .btn-choice:hover { background: var(--st-red); box-shadow: 0 0 20px var(--st-red); }
 
-  /* ЧАТ */
   #chatScreen { flex: 1; display: flex; flex-direction: column; padding-bottom: 120px; }
   .chat-wrap { padding: 20px; display: flex; flex-direction: column; gap: 25px; }
 
@@ -109,7 +105,6 @@
     margin-bottom: 10px; display: block; letter-spacing: 2px;
   }
 
-  /* ВВОД ТЕКСТА */
   .input-area {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 100%; max-width: 500px; padding: 20px; background: #000;
@@ -185,8 +180,8 @@ const arrivalProtocols = [
 ];
 
 const paths = {
-  ivan: [stations.yaga, stations.koschei, stations.leshy, stations.kikimora, stations.vodyanoy],
-  zabava: [stations.vodyanoy, stations.kikimora, stations.leshy, stations.koschei, stations.yaga]
+  ivan: [stations.kikimora, stations.koschei, stations.yaga, stations.leshy, stations.vodyanoy],
+  zabava: [stations.vodyanoy, stations.leshy, stations.yaga, stations.koschei, stations.kikimora]
 };
 
 function startQuest(selected) {
