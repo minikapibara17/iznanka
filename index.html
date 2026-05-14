@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -38,25 +37,16 @@
     cursor: crosshair;
   }
 
-  /* ─── CRT SCANLINES ─── */
   .scanlines {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 50; pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.18) 2px,
-      rgba(0,0,0,0.18) 4px
-    );
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px);
   }
   .vignette {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 4; pointer-events: none;
     background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.85) 100%);
   }
-
-  /* ─── STATIC NOISE ─── */
   .static-noise {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 6; pointer-events: none; opacity: 0.025;
@@ -71,8 +61,6 @@
     75%  { background-position: -20px 50px; }
     100% { background-position: 50px -30px; }
   }
-
-  /* ─── PARTICLES / SPORES ─── */
   .spores { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
   .spore {
     position: absolute; border-radius: 50%; opacity: 0;
@@ -84,8 +72,6 @@
     90%  { opacity: 0.3; }
     100% { transform: translate(var(--drift), -10vh) scale(1); opacity: 0; }
   }
-
-  /* ─── LAYOUT ─── */
   #app {
     max-width: 500px; margin: 0 auto;
     display: flex; flex-direction: column;
@@ -93,8 +79,6 @@
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
   }
-
-  /* ─── HEADER ─── */
   .header {
     padding: 40px 20px 20px;
     background: linear-gradient(180deg, #0d0900 0%, #080600 100%);
@@ -109,7 +93,6 @@
     background: radial-gradient(ellipse at 50% 0%, rgba(204,17,17,0.12) 0%, transparent 70%);
     pointer-events: none;
   }
-
   .timer-box {
     font-family: 'VT323', monospace; font-size: 28px;
     color: var(--amber); letter-spacing: 4px;
@@ -126,8 +109,6 @@
     98% { opacity: 0.4; }
     99% { opacity: 1; }
   }
-
-  /* ─── DEMOGORGON SIGIL / RADAR ─── */
   .sigil-wrap {
     width: 70px; height: 70px; margin: 0 auto 8px;
     position: relative;
@@ -156,24 +137,17 @@
     border-radius: 50%;
   }
   @keyframes sigilRotate { to { transform: rotate(360deg); } }
-
-  /* ─── SETUP SCREEN ─── */
   .setup {
     padding: 50px 25px;
     display: flex; flex-direction: column; align-items: center;
     background: linear-gradient(180deg, #080600 0%, #0a0900 100%);
     flex: 1;
   }
-
   .main-title {
     font-family: 'Oswald', sans-serif; font-weight: 700;
     font-size: 56px; letter-spacing: 14px;
     color: var(--red-hot);
-    text-shadow:
-      0 0 10px var(--red-hot),
-      0 0 30px rgba(204,17,17,0.6),
-      0 0 60px rgba(204,17,17,0.3),
-      2px 2px 0 #1a0000;
+    text-shadow: 0 0 10px var(--red-hot), 0 0 30px rgba(204,17,17,0.6), 0 0 60px rgba(204,17,17,0.3), 2px 2px 0 #1a0000;
     margin-bottom: 8px;
     animation: titleFlicker 6s ease-in-out infinite;
     text-transform: uppercase;
@@ -187,13 +161,11 @@
     79% { opacity: 0.7; }
     80% { opacity: 1; }
   }
-
   .subtitle {
     font-family: 'VT323', monospace; font-size: 15px;
     color: var(--dim); letter-spacing: 6px;
     margin-bottom: 50px; text-transform: uppercase;
   }
-
   .divider {
     width: 100%; border: none; border-top: 1px solid var(--border);
     margin: 10px 0 40px; position: relative;
@@ -203,13 +175,11 @@
     position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
     background: #090700; padding: 0 10px; color: var(--border-red); font-size: 12px;
   }
-
   .choose-label {
     font-family: 'VT323', monospace; font-size: 13px;
     color: var(--amber-dim); letter-spacing: 4px; margin-bottom: 20px;
     text-transform: uppercase;
   }
-
   .btn-choice {
     width: 100%; padding: 22px 25px; margin-bottom: 16px;
     background: transparent;
@@ -242,18 +212,12 @@
   }
   .btn-choice:hover::before { transform: translateX(4px); color: var(--red-hot); }
   .btn-choice:hover::after { height: 100%; }
-  .btn-choice span { position: relative; z-index: 1; }
-
-  /* ─── CHAT SCREEN ─── */
   #chatScreen { flex: 1; display: flex; flex-direction: column; }
-
   .chat-wrap {
     flex: 1; padding: 16px 16px 140px;
     display: flex; flex-direction: column; gap: 20px;
     background: linear-gradient(180deg, #0a0800 0%, #080600 100%);
   }
-
-  /* ─── MESSAGE BUBBLES ─── */
   .msg-bubble {
     padding: 16px 18px;
     background: rgba(10, 6, 0, 0.92);
@@ -298,7 +262,6 @@
     width: 3px; height: 40%;
     background: var(--border-red);
   }
-
   .char-tag {
     font-family: 'VT323', monospace; font-size: 13px;
     color: var(--red); letter-spacing: 3px;
@@ -319,16 +282,12 @@
     margin-bottom: 8px; display: block; text-align: right;
     text-transform: uppercase;
   }
-
-  /* ─── TYPEWRITER EFFECT ─── */
   .typing-cursor::after {
     content: '█';
     color: var(--amber);
     animation: cursorBlink 0.7s steps(1) infinite;
   }
   @keyframes cursorBlink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
-
-  /* ─── INPUT AREA ─── */
   .input-area {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 100%; max-width: 500px;
@@ -376,8 +335,6 @@
     background: var(--red);
     box-shadow: 0 0 15px rgba(204,17,17,0.4);
   }
-
-  /* ─── CHRISTMAS LIGHTS (header) ─── */
   .xmas-lights {
     position: absolute; top: 0; left: 0; right: 0; height: 26px;
     display: flex; align-items: flex-end; justify-content: space-around;
@@ -402,7 +359,6 @@
     background: linear-gradient(90deg, transparent, #222, #222, transparent);
     z-index: 9;
   }
-
   .hidden { display: none !important; }
   .grain {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -506,12 +462,33 @@ for (let i = 0; i < 22; i++) {
 // ─── GAME STATE ───
 let startTime, timerIdx, step = 0, team = '', awaitingArrival = true, finalStage = 0;
 
-const stations = {
-  yaga: { name: '🦴 БАБА-ЯГА', text: 'Кха-кха... Слышите этот треск? Это Изнанка пожирает мою избушку! Связь с реальным миром почти пропала — только старое радио ещё ловит сигнал сквозь помехи. Мне не выбраться без моей ступы. Она спрятана где-то в заповеднике. Найдите её!\n\nНо есть зарок: к ступе может подойти только половина отряда. Вы телом и жестами должны показать другой половине координаты. Лишь те, кто увидит знаки, введут их. На ступе будут координаты — только они помогут мне отыскать дорогу обратно. Скорее... пока тьма не добралась и до вас.', code: 'X-33-Y' },
-  koschei: { name: '💀 КОЩЕЙ', text: 'Холодно... слишком холодно. Время здесь будто остановилось. Дух Изнанки заточил меня в этой проклятой пещере, даже эхо здесь не слышно. Но у меня есть амулет. Старинный. Сильный. Он способен указать путь даже там, где не видно выхода.\n\nПроклятье: амулет не подпускает к себе закоченелых людей. Всем надо разогреться — встаньте в круг, и пусть каждый по очереди разогревает другого участника, пока тепло не вернётся. Затем берите амулет среди теней леса и передайте мне координаты. И поторопитесь... я чувствую, как тьма надвигается и на реальный мир!', code: 'ZERO-0' },
-  leshy: { name: '🌲 ЛЕШИЙ', text: 'Лес утонул под пеплом, деревья засохли, трава почернела, в воздухе висит морок! Я больше не вижу прежних тропинок. Только мой заговорённый меч способен разрубить эту тьму.\n\nНо есть условие: меч может взять лишь один. Завяжите смельчаку глаза, пусть остальные направляют его голосом — шаг за шагом, не касаясь. Отыщите древнюю реликвию и отправьте мне её координаты, пока тьма окончательно не стёрла с лица Заповедника все пути.', code: 'ROOT-7' },
-  kikimora: { name: '🕸 КИКИМОРА', text: 'Ой, мамочки... где это я?.. Эта жуткая паутина тянется бесконечно, а злобный дух всё глубже заманивает меня в свои пучины. Только мой гребень способен распутать эти проклятые нити.\n\nЧтобы его отыскать, нужно сплести огромную косу из ниток. Разделитесь на три части и вместе заплетите её — только тогда гребень явится. Ищите его под корнями деревьев — там, где земля холоднее обычного. Найдёте — сразу отправляйте координаты! Пока паутина не утянула меня в самую глубину Изнанки...', code: 'WEB-99' },
-  vodyanoy: { name: '💧 ВОДЯНОЙ', text: 'Буль... буль... Вода почернела, реки превратились в вязкую грязь! Мне нужен мой трезубец. Только он способен очистить эту проклятую тьму и вернуть воде чистоту.\n\nНо болото коварно — вы по очереди прыгаете к трезубцу по камням, стараясь не упасть. Каждый шаг на вес золота. Найдите его и передайте мне координаты. Иначе трясина поглотит меня вместе со всеми моими владениями...', code: 'DEEP-8' }
+// Новые структуры сообщений: разделено на "жалоба" и "задание"
+const heroMessages = {
+  yaga: {
+    distress: "Кха-кха... Слышите этот треск? Это Изнанка пожирает мою избушку! Связь с реальным миром почти пропала — только старое радио ещё ловит сигнал сквозь помехи. Мне не выбраться без моей ступы. Она спрятана где-то в заповеднике.",
+    task: "Найдите её!\n\nНо есть зарок: к ступе может подойти только половина отряда. Вы телом и жестами должны показать другой половине координаты. Лишь те, кто увидит знаки, введут их. На ступе будут координаты — только они помогут мне отыскать дорогу обратно. Скорее... пока тьма не добралась и до вас.",
+    code: 'X-33-Y'
+  },
+  koschei: {
+    distress: "Холодно... слишком холодно. Время здесь будто остановилось. Дух Изнанки заточил меня в этой проклятой пещере, даже эхо здесь не слышно. Но у меня есть амулет. Старинный. Сильный. Он способен указать путь даже там, где не видно выхода.",
+    task: "Проклятье: амулет не подпускает к себе закоченелых людей. Всем надо разогреться — встаньте в круг, и пусть каждый по очереди разогревает другого участника, пока тепло не вернётся. Затем берите амулет среди теней леса и передайте мне координаты. И поторопитесь... я чувствую, как тьма надвигается и на реальный мир!",
+    code: 'ZERO-0'
+  },
+  leshy: {
+    distress: "Лес утонул под пеплом, деревья засохли, трава почернела, в воздухе висит морок! Я больше не вижу прежних тропинок. Только мой заговорённый меч способен разрубить эту тьму.",
+    task: "Но есть условие: меч может взять лишь один. Завяжите смельчаку глаза, пусть остальные направляют его голосом — шаг за шагом, не касаясь. Отыщите древнюю реликвию и отправьте мне её координаты, пока тьма окончательно не стёрла с лица Заповедника все пути.",
+    code: 'ROOT-7'
+  },
+  kikimora: {
+    distress: "Ой, мамочки... где это я?.. Эта жуткая паутина тянется бесконечно, а злобный дух всё глубже заманивает меня в свои пучины. Только мой гребень способен распутать эти проклятые нити.",
+    task: "Чтобы его отыскать, нужно сплести огромную косу из ниток. Разделитесь на три части и вместе заплетите её — только тогда гребень явится. Ищите его под корнями деревьев — там, где земля холоднее обычного. Найдёте — сразу отправляйте координаты! Пока паутина не утянула меня в самую глубину Изнанки...",
+    code: 'WEB-99'
+  },
+  vodyanoy: {
+    distress: "Буль... буль... Вода почернела, реки превратились в вязкую грязь! Мне нужен мой трезубец. Только он способен очистить эту проклятую тьму и вернуть воде чистоту.",
+    task: "Но болото коварно — вы по очереди прыгаете к трезубцу по камням, стараясь не упасть. Каждый шаг на вес золота. Найдите его и передайте мне координаты. Иначе трясина поглотит меня вместе со всеми моими владениями...",
+    code: 'DEEP-8'
+  }
 };
 
 const arrivalProtocols = [
@@ -523,8 +500,8 @@ const arrivalProtocols = [
 ];
 
 const paths = {
-  ivan: [stations.kikimora, stations.koschei, stations.yaga, stations.leshy, stations.vodyanoy],
-  zabava: [stations.vodyanoy, stations.leshy, stations.yaga, stations.koschei, stations.kikimora]
+  ivan: ['kikimora', 'koschei', 'yaga', 'leshy', 'vodyanoy'],
+  zabava: ['vodyanoy', 'leshy', 'yaga', 'koschei', 'kikimora']
 };
 
 function startQuest(selected) {
@@ -536,11 +513,24 @@ function startQuest(selected) {
     let diff = Math.floor((new Date() - startTime) / 1000);
     document.getElementById('timer').innerText = String(Math.floor(diff/60)).padStart(2,'0') + ':' + String(diff%60).padStart(2,'0');
   }, 1000);
-  addMsg('СИСТЕМА', `Канал открыт. Первая цель: ${paths[team][0].name}. По прибытии введите протокол: "${arrivalProtocols[0].trigger}".`, 'sys');
+  addMsg('СИСТЕМА', `Канал открыт. Первая цель: ${getHeroName(paths[team][0])}. По прибытии введите протокол: "${arrivalProtocols[0].trigger}".`, 'sys');
+}
+
+function getHeroName(key) {
+  const names = { yaga: 'БАБА-ЯГА', koschei: 'КОЩЕЙ', leshy: 'ЛЕШИЙ', kikimora: 'КИКИМОРА', vodyanoy: 'ВОДЯНОЙ' };
+  return names[key];
 }
 
 function showStep() {
-  addMsg(paths[team][step].name, paths[team][step].text, 'hero');
+  const heroKey = paths[team][step];
+  const hero = heroMessages[heroKey];
+  const heroName = getHeroName(heroKey);
+  // Сначала сообщение о бедствии
+  addMsg(heroName, hero.distress, 'hero');
+  // Через небольшую паузу — задание (чтобы было как отдельное сообщение)
+  setTimeout(() => {
+    addMsg(heroName, hero.task, 'hero');
+  }, 600);
 }
 
 function triggerFinal() {
@@ -560,7 +550,6 @@ function handleSend() {
   addMsg('ВЫ', input.value, 'user');
   input.value = '';
 
-  // финальный этап 1: объединение отрядов
   if (finalStage === 1) {
     if (val.includes('НАШЛИ') || val.includes('ВСТРЕТИЛИ') || val.includes('ВМЕСТЕ')) {
       addMsg('СИСТЕМА', 'Визуальное подтверждение получено. Обе группы в сборе.', 'sys');
@@ -572,7 +561,6 @@ function handleSend() {
     return;
   }
   
-  // финальный этап 2: ввод года
   if (finalStage === 2) {
     const currentYear = new Date().getFullYear().toString();
     if (val === currentYear) {
@@ -586,7 +574,6 @@ function handleSend() {
     return;
   }
 
-  // ожидание протокола прибытия
   if (awaitingArrival) {
     if (rawVal === arrivalProtocols[step].trigger) {
       addMsg('СИСТЕМА', arrivalProtocols[step].response, 'sys');
@@ -598,11 +585,13 @@ function handleSend() {
     return;
   }
 
-  // проверка кода артефакта
-  if (val === paths[team][step].code) {
+  const currentHeroKey = paths[team][step];
+  const currentHero = heroMessages[currentHeroKey];
+  if (val === currentHero.code) {
     step++;
     if (step < 5) {
-      addMsg('СИСТЕМА', `КООРДИНАТЫ ПРИНЯТЫ. Цель: ${paths[team][step].name}. Введите протокол: "${arrivalProtocols[step].trigger}".`, 'sys');
+      const nextHero = getHeroName(paths[team][step]);
+      addMsg('СИСТЕМА', `КООРДИНАТЫ ПРИНЯТЫ. Цель: ${nextHero}. Введите протокол: "${arrivalProtocols[step].trigger}".`, 'sys');
       awaitingArrival = true;
     } else {
       triggerFinal();
