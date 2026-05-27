@@ -176,6 +176,20 @@
     position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
     background: #090700; padding: 0 10px; color: var(--border-red); font-size: 12px;
   }
+  .intro-text {
+    font-family: 'Special Elite', serif;
+    font-size: 15px;
+    color: var(--cream);
+    line-height: 1.8;
+    text-align: center;
+    opacity: 0.85;
+    max-width: 340px;
+    margin-bottom: 10px;
+  }
+  .intro-danger {
+    color: var(--red-hot);
+    text-shadow: 0 0 8px rgba(204,17,17,0.5);
+  }
   .choose-label {
     font-family: 'VT323', monospace; font-size: 13px;
     color: var(--amber-dim); letter-spacing: 4px; margin-bottom: 20px;
@@ -407,6 +421,8 @@
   <div id="setupScreen" class="setup">
     <h1 class="main-title">ИЗНАНКА</h1>
     <p class="subtitle">TERMINAL&nbsp;2.0</p>
+    <hr class="divider">
+    <p class="intro-text">Где-то за краем карты есть место, куда не ходят люди. Там — изнаночная сторона заповедника. Пространство между сказкой и тьмой. <span class="intro-danger">Наши герои в огромной опасности. Только вы можете им помочь.</span></p>
     <hr class="divider">
     <p class="choose-label">// выберите отряд //</p>
     <button class="btn-choice" onclick="startQuest('ivan')"><span>ОТРЯД ЦАРЕВИЧА</span></button>
